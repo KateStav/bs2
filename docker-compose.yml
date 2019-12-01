@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  db:
+    image: mysql
+    restart: on-failure
+    environment: 
+      - MYSQL_ROOT_PASSWORD=t
+      - MYSQL_DATABASE=pdb
+      - MYSQL_USER=pdb
+      - MYSQL_PASSWORD=pdbpass    
+
+  backend:
+    image: kate9/backend
+    environment:
+      - MYSQL_HOST=db
+    depends_on:
+      - db
+    ports:
+      - "8000:8080"
+    restart: on-failure
+  frontend:
+    image: coscicorp/catalog_frontend  
+    ports: 
+      - "80:3000"
